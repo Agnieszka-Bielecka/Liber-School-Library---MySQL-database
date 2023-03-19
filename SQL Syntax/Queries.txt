@@ -1,0 +1,133 @@
+INFORMACJE
+W bazie danych zawarte zostały informacje o użytkownikach i ich kontach
+w bazie danych lokalnej biblioteki, która znajduję się w szkole w mieście
+o małej wielkości (pod względem ilości mieszkańców).
+Zbiór danych zawiera informacje o wypożyczeniach i zwrotach książek
+w ciągu trzech miesięcy (grudzień - luty).
+
+Biblioteka potrzebuje informacji o działalności biblioteki w celu
+polepszenia jej usług. Biblioteka otrzymała fundusz pieniężny na 
+zakup nowych książek, skromne nagrody dla czytelników oraz małą
+reklamę w mieście, aby zachęcić mieszkańców z innych części miasta
+do korzystania z usług biblioteki.
+
+Twoim zadaniem jest zbadanie działalności bibileteki na podstawie
+danych z trzech miesięcy i wskazanie najlepszych sposobów na
+wykorzystanie przydzielonego funduszu.
+
+
+### PYTANIA ###
+
+## CZYTELNICY ##
+
+1. Ile książek w sumie zostało wypożyczonych w ciągu ostatnich
+trzech miesięcy?
+INPUT
+select count(borrowID) as "total borrows" from checkout;
+
+OUTPUT
+654
+
+2. Ile książek zostało wypożyczonych w każdym miesiącu?
+INPUT
+select month(borrow_date), count(borrowID) as "total borrows" 
+from checkout
+group by month(borrow_date)
+order by month(borrow_date);
+
+OUTPUT
+grudzień - 83
+styczeń - 166
+luty - 405
+
+DLACZEGO - w grudniu nie było czasu na czytanie z powodu świąt
+w styczniu uczniowie mieli mniej czasu z powodu zbliżającego się końca semestru
+w luty uczniowie mieli ferie i przybyło nowych czytelników, ponieważ zachęcano rodziców uczniów do zapisania się do biblioteki szkolnej
+
+5. Ilu użytkowników czytelni jest uczniami szkoły, a ilu nie?
+INPUT
+select is_student ,count(userID) as "sum" 
+from users 
+group by is_student;
+
+OUTPUT
+uczeniowie - 150
+osoby spoza szkoły - 122
+
+4. Kto czyta wypożycza więcej książek uczniowie czy osoby z poza szkoły?
+INPUT
+select
+is_student,
+sum(no_borrowed_books) as "total"
+from users 
+join accounts on users.userID = accounts.userID
+group by is_student;
+
+OUTPUT
+uczniowie - 356
+osoby spoza szkoły - 303
+
+5. Ile jest mężczyzn, a ile kobiet zapisanych do biblioteki?
+INPUT
+select
+gender,
+count(gender) as "total"
+from users
+group by gender;
+
+OUTPUT
+mężczyźni - 137
+kobiety - 135
+
+6. Ile książek zostało wypożyczonych przez mężczyzn, a ile przez kobiety?
+INPUT
+select
+gender,
+sum(no_borrowed_books) as "total"
+from accounts
+join users on accounts.userID = users.userID
+group by gender;
+
+OUTPUT
+kobiety - 314
+mężczyźni - 345
+
+## KSIĄŻKI ##
+
+
+7. Wyszczególnij ile książek, jakiego gatunku jest obecnie w bibliotece.
+INPUT
+select
+genre,
+count(genre) as "total"
+from books 
+group by genre;
+
+OUTPUT
+literatura piękna - 117
+dramat komedia tragedia - 41
+klasyka - 49
+fantasy science-fiction - 117
+powieść młodzieżowa - 36
+powieść historyczna - 9
+literatura faktu biografia autobiografia - 10
+kryminał sensacja thriller - 48
+poezja - 14
+horror - 7
+literatura obyczajowa romans - 18
+
+8. Jakie gatunki książek są najczęściej wypożyczane?
+INPUT
+select
+genre,
+count(genre) as "total"
+from books
+join checkout on books.bookID = checkout.bookID 
+group by genre;
+
+9. Książki jakiego autora/ki są najczęściej wypożyczane?
+INPUT
+
+
+
+

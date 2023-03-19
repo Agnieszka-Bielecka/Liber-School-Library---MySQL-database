@@ -45,7 +45,7 @@ CREATE TABLE checkout (
 	accountID int NOT NULL,
 	bookID int NOT NULL,
 	workerID int NOT NULL,
-	return_day datetime DEFAULT ((now() + interval 14 day)),
+	return_date datetime DEFAULT ((now() + interval 14 day)),
 	PRIMARY KEY (borrowID),
 	FOREIGN KEY (accountID) REFERENCES accounts(accountID),
 	FOREIGN KEY (bookID) REFERENCES books(bookID),
