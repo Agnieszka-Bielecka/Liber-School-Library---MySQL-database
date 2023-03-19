@@ -33,7 +33,7 @@ INSERT INTO school_library.accounts (email,password,userID,no_borrowed_books,no_
 	 ('anita-walczak@gmail.com','^pr@JC!6*u$N',30,1,1);
 INSERT INTO school_library.accounts (email,password,userID,no_borrowed_books,no_returned_books) VALUES
 	 ('justyna-lewandowska@gmail.com','+J#JYYuZ_Z8b',31,0,0),
-	 ('bartosz-szulc@gmail.com','PAt?Pq9MjjTZ',32,4,5),
+	 ('bartosz-szulc@gmail.com','PAt?Pq9MjjTZ',32,4,4),
 	 ('artur-baran@gmail.com','%jVs9H?kYxKv',33,1,1),
 	 ('borys-stępień@gmail.com','tEx=3J9G!C8=',34,6,5),
 	 ('mikołaj-kowalczyk@gmail.com','Sd@6GwN$Ak+=',35,1,1),
@@ -79,7 +79,7 @@ INSERT INTO school_library.accounts (email,password,userID,no_borrowed_books,no_
 	 ('kinga-bielska@gmail.com','t9Cz46t%jYnT',71,1,1),
 	 ('marta-jakubowska@gmail.com','8-M_B_!&rLmM',72,3,2),
 	 ('monika-nowak@gmail.com','Pf!U!ZJY5+f_',73,3,2),
-	 ('izabela-sadowska@gmail.com','LDFuv!UU8pY-',74,2,5),
+	 ('izabela-sadowska@gmail.com','LDFuv!UU8pY-',74,2,2),
 	 ('karol-mazur@gmail.com','c&Dq8Atv8y&-',75,7,6),
 	 ('dawid-szymański@gmail.com','t?tbTxX84&R9',76,2,2),
 	 ('bartłomiej-jankowski@gmail.com','rg8R%G6B5anJ',77,2,1),
@@ -197,7 +197,7 @@ INSERT INTO school_library.accounts (email,password,userID,no_borrowed_books,no_
 	 ('magda-stępień@gmail.com','LoagXgx&jbaE',179,2,1),
 	 ('olimpia-mazur@gmail.com','Jvd6Y%7GWPJv',180,3,2);
 INSERT INTO school_library.accounts (email,password,userID,no_borrowed_books,no_returned_books) VALUES
-	 ('emilia-krupa@gmail.com','MTvPB)L#uZQf',181,1,2),
+	 ('emilia-krupa@gmail.com','MTvPB)L#uZQf',181,1,1),
 	 ('roksana-kwiatkowska@gmail.com','ltsPG(%&hQUJ',182,1,0),
 	 ('katarzyna-duda@gmail.com','b!mns&gIlDTi',183,2,1),
 	 ('andrea-pietrzak@gmail.com','5ckJRpIZqiYD',184,5,3),
