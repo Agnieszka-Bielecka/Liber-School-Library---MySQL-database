@@ -16,6 +16,7 @@ CREATE TABLE users (
 	user_firstName varchar(100) NOT NULL,
 	user_lastName varchar(100) NOT NULL,
 	is_student boolean NOT NULL DEFAULT TRUE,
+	gender char(1),
 	PRIMARY KEY (userID)
 );
 
@@ -41,22 +42,20 @@ CREATE TABLE staff (
 
 CREATE TABLE checkout (
 	borrowID int NOT NULL AUTO_INCREMENT,
-	borrow_date timestamp DEFAULT CURRENT_TIMESTAMP,
+	borrow_date date DEFAULT CURRENT_TIMESTAMP,
 	accountID int NOT NULL,
 	bookID int NOT NULL,
 	workerID int NOT NULL,
-	return_date datetime DEFAULT ((now() + interval 14 day)),
+	return_date date DEFAULT ((now() + interval 30 day)),
 	PRIMARY KEY (borrowID),
 	FOREIGN KEY (accountID) REFERENCES accounts(accountID),
 	FOREIGN KEY (bookID) REFERENCES books(bookID),
 	FOREIGN KEY (workerID) REFERENCES staff(staffID)
 );
 
-alter table checkout add return_day datetime default (current_timestamp + interval 14 day);
-
 CREATE TABLE book_returns (
 	returnID int NOT NULL AUTO_INCREMENT,
-	return_date timestamp DEFAULT CURRENT_TIMESTAMP,
+	return_date date DEFAULT CURRENT_TIMESTAMP,
 	accountID int NOT NULL,
 	bookID int NOT NULL,
 	workerID int NOT NULL,

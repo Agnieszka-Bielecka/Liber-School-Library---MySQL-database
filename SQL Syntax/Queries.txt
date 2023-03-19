@@ -101,7 +101,8 @@ select
 genre,
 count(genre) as "total"
 from books 
-group by genre;
+group by genre
+order by count(genre) desc;
 
 OUTPUT
 literatura piękna - 117
@@ -123,11 +124,49 @@ genre,
 count(genre) as "total"
 from books
 join checkout on books.bookID = checkout.bookID 
-group by genre;
+group by genre
+order by count(genre) desc;
 
 9. Książki jakiego autora/ki są najczęściej wypożyczane?
 INPUT
+select
+count(checkout.bookID) as "total",
+concat_ws(" ", author_firstName, author_lastName) as "full name"
+from books
+join checkout on books.bookID = checkout.bookID
+group by author_firstName, author_lastName
+order by count(checkout.bookID) desc;
 
+10. Książki jakiego wydawnictwa są najczęściej wypożyczane?
+INPUT
+select
+count(checkout.bookID) as "total",
+publisher
+from books
+join checkout on books.bookID = checkout.bookID
+group by publisher
+order by count(checkout.bookID) desc;
 
+11. Którzy czytelnicy przeczytali wypożyczyli najwięcej książek?
+INPUT
+select 
+concat_ws(" ", user_firstName, user_lastName),
+no_borrowed_books
+from users 
+join accounts on users.userID = accounts.userID
+order by no_borrowed_books desc;
+
+12. Jakie książki miał zostać oddane do 2023-03-01, a nie zostały? 
+Na jakiego maila należy napisać wiadomość z prośbą o zwrot?
+INPUT
+select 
+checkout.accountID,
+checkout.bookID,
+checkout.borrow_date,
+checkout.return_date,
+book_returns.returnID
+from checkout
+left join book_returns on checkout.borrowID = book_returns.borrowID
+where book_returns.bookID is null and checkout.return_date < "2023-03-01";
 
 
