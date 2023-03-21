@@ -1,17 +1,3 @@
-### INFORMATION ###
-The database contains information about users and their accounts in the
-local library database, which is located in a school in a small city
-in terms of population.
-The dataset contains information about books borrowed and returned
-in the last three months (December - February).
-
-The library needs information about its activity in order to
-improve its services. Library got a fund for new books, modest rewards
-for readers and advertisements in town to encourage residents
-from other parts of the town to use the library's services.
-
-### QUESTIONS ###
-
 1. How many books have been borrowed in total in the last three months?
 
 SELECT 
