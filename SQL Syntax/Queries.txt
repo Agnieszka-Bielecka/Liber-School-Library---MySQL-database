@@ -1,108 +1,98 @@
-INFORMACJE
-W bazie danych zawarte zostały informacje o użytkownikach i ich kontach
-w bazie danych lokalnej biblioteki, która znajduję się w szkole w mieście
-o małej wielkości (pod względem ilości mieszkańców).
-Zbiór danych zawiera informacje o wypożyczeniach i zwrotach książek
-w ciągu trzech miesięcy (grudzień - luty).
+### INFORMATION ###
+The database contains information about users and their accounts in the
+local library database, which is located in a school in a small city
+in terms of population.
+The dataset contains information about books borrowed and returned
+in the last three months (December - February).
 
-Biblioteka potrzebuje informacji o działalności biblioteki w celu
-polepszenia jej usług. Biblioteka otrzymała fundusz pieniężny na 
-zakup nowych książek, skromne nagrody dla czytelników oraz małą
-reklamę w mieście, aby zachęcić mieszkańców z innych części miasta
-do korzystania z usług biblioteki.
+The library needs information about its activity in order to
+improve its services. Library got a fund for new books, modest rewards
+for readers and advertisements in town to encourage residents
+from other parts of the town to use the library's services.
 
-Twoim zadaniem jest zbadanie działalności bibileteki na podstawie
-danych z trzech miesięcy i wskazanie najlepszych sposobów na
-wykorzystanie przydzielonego funduszu.
+### QUESTIONS ###
 
+1. How many books have been borrowed in total in the last three months?
 
-### PYTANIA ###
-
-## CZYTELNICY ##
-
-1. Ile książek w sumie zostało wypożyczonych w ciągu ostatnich
-trzech miesięcy?
-INPUT
-select count(borrowID) as "total borrows" from checkout;
+SELECT 
+COUNT(borrowID) AS "total borrows" 
+FROM checkout;
 
 OUTPUT
 654
 
-2. Ile książek zostało wypożyczonych w każdym miesiącu?
-INPUT
-select month(borrow_date), count(borrowID) as "total borrows" 
-from checkout
-group by month(borrow_date)
-order by month(borrow_date);
+2. How many books were borrowed each month?
+
+SELECT 
+MONTH(borrow_date) AS "month", 
+COUNT(borrowID) AS "total borrows" 
+FROM checkout
+GROUP BY MONTH(borrow_date)
+ORDER BY MONTH(borrow_date);
 
 OUTPUT
-grudzień - 83
-styczeń - 166
-luty - 405
+December - 83
+January - 166
+February - 405
 
-DLACZEGO - w grudniu nie było czasu na czytanie z powodu świąt
-w styczniu uczniowie mieli mniej czasu z powodu zbliżającego się końca semestru
-w luty uczniowie mieli ferie i przybyło nowych czytelników, ponieważ zachęcano rodziców uczniów do zapisania się do biblioteki szkolnej
+3. How many users of the reading room are students of the school?
 
-5. Ilu użytkowników czytelni jest uczniami szkoły, a ilu nie?
-INPUT
-select is_student ,count(userID) as "sum" 
-from users 
-group by is_student;
+SELECT 
+is_student, 
+COUNT(userID) AS "sum" 
+FROM users 
+GROUP BY is_student;
 
 OUTPUT
-uczeniowie - 150
-osoby spoza szkoły - 122
+students - 150
+others - 122
 
-4. Kto czyta wypożycza więcej książek uczniowie czy osoby z poza szkoły?
-INPUT
-select
+4. Who borrows more books, students or people outside the school?
+
+SELECT
 is_student,
-sum(no_borrowed_books) as "total"
-from users 
-join accounts on users.userID = accounts.userID
-group by is_student;
+SUM(no_borrowed_books) AS "borrows"
+FROM users 
+JOIN accounts ON users.userID = accounts.userID
+GROUP BY is_student;
 
 OUTPUT
 uczniowie - 356
 osoby spoza szkoły - 303
 
-5. Ile jest mężczyzn, a ile kobiet zapisanych do biblioteki?
-INPUT
-select
+5. How many men and women use the library?
+
+SELECT
 gender,
-count(gender) as "total"
-from users
-group by gender;
+COUNT(gender) AS "total"
+FROM users
+GROUP BY gender;
 
 OUTPUT
-mężczyźni - 137
-kobiety - 135
+men - 137
+women - 135
 
-6. Ile książek zostało wypożyczonych przez mężczyzn, a ile przez kobiety?
-INPUT
-select
+6. How many books were borrowed by men and how many by women?
+
+SELECT
 gender,
-sum(no_borrowed_books) as "total"
-from accounts
-join users on accounts.userID = users.userID
-group by gender;
+SUM(no_borrowed_books) AS "total"
+FROM accounts
+JOIN users ON accounts.userID = users.userID
+GROUP BY gender;
 
 OUTPUT
-kobiety - 314
-mężczyźni - 345
+women - 314
+men - 345
 
-## KSIĄŻKI ##
+7. How many books of what genre are currently in the library?
 
-
-7. Wyszczególnij ile książek, jakiego gatunku jest obecnie w bibliotece.
-INPUT
-select
+SELECT
 genre,
-count(genre) as "total"
-from books 
-group by genre
-order by count(genre) desc;
+COUNT(genre) AS "total"
+FROM books 
+GROUP BY genre
+ORDER BY COUNT(genre) DESC;
 
 OUTPUT
 literatura piękna - 117
@@ -117,56 +107,54 @@ poezja - 14
 horror - 7
 literatura obyczajowa romans - 18
 
-8. Jakie gatunki książek są najczęściej wypożyczane?
-INPUT
-select
+8. What genres of books are most often borrowed?
+
+SELECT
 genre,
-count(genre) as "total"
-from books
-join checkout on books.bookID = checkout.bookID 
-group by genre
-order by count(genre) desc;
+COUNT(genre) AS "total"
+FROM books
+JOIN checkout ON books.bookID = checkout.bookID 
+GROUP BY genre
+ORDER BY COUNT(genre) DESC;
 
-9. Książki jakiego autora/ki są najczęściej wypożyczane?
-INPUT
-select
-count(checkout.bookID) as "total",
-concat_ws(" ", author_firstName, author_lastName) as "full name"
-from books
-join checkout on books.bookID = checkout.bookID
-group by author_firstName, author_lastName
-order by count(checkout.bookID) desc;
+9. Which author's books are most often borrowed?
 
-10. Książki jakiego wydawnictwa są najczęściej wypożyczane?
-INPUT
-select
-count(checkout.bookID) as "total",
-publisher
-from books
-join checkout on books.bookID = checkout.bookID
-group by publisher
-order by count(checkout.bookID) desc;
+SELECT
+CONCAT_WS(" ", author_firstName, author_lastName) AS "authors name",
+COUNT(checkout.bookID) AS "total"
+FROM books
+JOIN checkout ON books.bookID = checkout.bookID
+GROUP BY author_firstName, author_lastName
+ORDER BY COUNT(checkout.bookID) DESC;
 
-11. Którzy czytelnicy przeczytali wypożyczyli najwięcej książek?
-INPUT
-select 
-concat_ws(" ", user_firstName, user_lastName),
-no_borrowed_books
-from users 
-join accounts on users.userID = accounts.userID
-order by no_borrowed_books desc;
+10. Which publisher's books are most frequently borrowed?
 
-12. Jakie książki miał zostać oddane do 2023-03-01, a nie zostały? 
-Na jakiego maila należy napisać wiadomość z prośbą o zwrot?
-INPUT
-select 
-checkout.accountID,
-checkout.bookID,
-checkout.borrow_date,
-checkout.return_date,
-book_returns.returnID
-from checkout
-left join book_returns on checkout.borrowID = book_returns.borrowID
-where book_returns.bookID is null and checkout.return_date < "2023-03-01";
+SELECT
+publisher,
+COUNT(checkout.bookID) AS "total"
+FROM books
+JOIN checkout ON books.bookID = checkout.bookID
+GROUP BY publisher
+ORDER BY COUNT(checkout.bookID) DESC;
 
+11. Which readers borrowed the most books?
+
+SELECT 
+CONCAT_WS(" ", user_firstName, user_lastName) AS "users name",
+no_borrowed_books AS "number of books"
+FROM users 
+JOIN accounts ON users.userID = accounts.userID
+ORDER BY no_borrowed_books DESC;
+
+12. What books were supposed to be delivered by 2023-03-01 and were not?
+What email address should I send a message requesting the return of books?
+
+SELECT 
+(SELECT email FROM accounts WHERE accounts.accountID = checkout.accountID) AS "email",
+(SELECT title FROM books WHERE books.bookID = checkout.bookID) AS "title",
+checkout.borrow_date AS "borrow date",
+checkout.return_date AS "return date"
+FROM checkout
+LEFT JOIN book_returns ON checkout.borrowID = book_returns.borrowID
+WHERE book_returns.bookID IS NULL AND checkout.return_date < "2023-03-01";
 
